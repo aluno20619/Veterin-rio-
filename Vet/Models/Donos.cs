@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 
 namespace Vet.Models
 {
-    public class Vet
-    {
+    public class Donos
+    {//id nome nif(int)
         public int ID { get; set; }
         public string Nome { get; set; }
-        public string NumCedulaProf { get; set; }
-        public string Fotografia { get; set; }
+        public string NIF { get; set; }
     }
 }

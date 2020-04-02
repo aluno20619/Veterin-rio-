@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 
 namespace Vet.Models
 {
-    public class Vet
+    public class Consulta
     {
         public int ID { get; set; }
-        public string Nome { get; set; }
-        public string NumCedulaProf { get; set; }
-        public string Fotografia { get; set; }
+        public DateTime Data { get; set; }
+        public string Observacao { get; set; }
     }
 }
