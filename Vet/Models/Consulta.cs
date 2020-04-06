@@ -17,7 +17,7 @@ namespace Vet.Models
         //FK
         [ForeignKey(nameof(Vet))]
         public int VetFK { get; set; }
-        public Vet Vet { get; set; }
+        public Veterin Vet { get; set; }
 
         [ForeignKey(nameof(Animal))]
         public int AnimaisFK { get; set; }
