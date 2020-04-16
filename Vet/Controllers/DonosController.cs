@@ -12,7 +12,7 @@ namespace Vet.Controllers
 {
     public class DonosController : Controller
     {
-        private readonly VetsDB bd;
+        private readonly VetsDB bd;//em sql <=> use VetsDb
 
         public DonosController(VetsDB context)
         {
@@ -22,6 +22,9 @@ namespace Vet.Controllers
         // GET: Donos
         public async Task<IActionResult> Index()
         {
+            //db.Donos.ToLIstArray() <=> em SQL,select * from Donos;
+            //LINQ
+            //
             return View(await bd.Donos.ToListAsync());
         }
 
@@ -43,6 +46,7 @@ namespace Vet.Controllers
         }
 
         // GET: Donos/Create
+        
         public IActionResult Create()
         {
             return View();
@@ -53,15 +57,16 @@ namespace Vet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Nome,NIF")] Donos donos)
+        public async Task<IActionResult> Create([Bind("ID,Nome,NIF")] Donos dono)
         {
             if (ModelState.IsValid)
             {
-                bd.Add(donos);
+                bd.Add(dono);//insert into donos value
                 await bd.SaveChangesAsync();//commit
                 return RedirectToAction(nameof(Index));
             }//rollback
-            return View(donos);
+            return View(dono);
+            //viewbag
         }
 
         // GET: Donos/Edit/5
@@ -72,12 +77,12 @@ namespace Vet.Controllers
                 return NotFound();
             }
 
-            var donos = await bd.Donos.FindAsync(id);
-            if (donos == null)
+            var dono = await bd.Donos.FindAsync(id);
+            if (dono == null)
             {
                 return NotFound();
             }
-            return View(donos);
+            return View(dono);
         }
 
         // POST: Donos/Edit/5
@@ -85,9 +90,9 @@ namespace Vet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Nome,NIF")] Donos donos)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Nome,NIF")] Donos dono)
         {
-            if (id != donos.ID)
+            if (id != dono.ID)
             {
                 return NotFound();
             }
@@ -96,12 +101,12 @@ namespace Vet.Controllers
             {
                 try
                 {
-                    bd.Update(donos);
+                    bd.Update(dono);
                     await bd.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DonosExists(donos.ID))
+                    if (!DonosExists(dono.ID))
                     {
                         return NotFound();
                     }
@@ -112,7 +117,7 @@ namespace Vet.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(donos);
+            return View(dono);
         }
 
         // GET: Donos/Delete/5
@@ -123,14 +128,14 @@ namespace Vet.Controllers
                 return NotFound();
             }
 
-            var donos = await bd.Donos
+            var dono = await bd.Donos
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (donos == null)
+            if (dono == null)
             {
                 return NotFound();
             }
 
-            return View(donos);
+            return View(dono);
         }
 
         // POST: Donos/Delete/5
@@ -138,8 +143,8 @@ namespace Vet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var donos = await bd.Donos.FindAsync(id);
-            bd.Donos.Remove(donos);
+            var dono = await bd.Donos.FindAsync(id);
+            bd.Donos.Remove(dono);
             await bd.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
