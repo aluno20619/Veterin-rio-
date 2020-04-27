@@ -17,6 +17,8 @@ namespace Vet.Models
 
         [Required(ErrorMessage = "O {0} e de preenchimento obrigatorio")]
         [StringLength(40, ErrorMessage = "O {0} nao deve ter mais de {1} caracteres")]
+        [RegularExpression("[A-ZÂÓÍÉ][a-záéíúóàèìòùêâîôûãõñäëïöüç]+( | d[oa](s)? | (d)?e |-|'| d')[A-ZÂÓÍÉ][a-záéíúóàèìòùêâîôûãõñäëïöüç]+{2.4}",
+            ErrorMessage = "Só são aceites letras.<br />Deve começar com minuscula e de segiuda miniculas.<br />Deve ter 2 a 4 nomes")]
         public string Nome { get; set; }
 
         [Required(ErrorMessage ="O {0} e de preenchimento obrigatorio")]

@@ -10,25 +10,22 @@ using Vet.Models;
 
 namespace Vet.Controllers
 {
-    public class DonosController : Controller
+    public class VeterinsController : Controller
     {
-        private readonly VetsDB bd;//em sql <=> use VetsDb
+        private readonly VetsDB bd;
 
-        public DonosController(VetsDB context)
+        public VeterinsController(VetsDB context)
         {
             bd = context;
         }
 
-        // GET: Donos
+        // GET: Veterins
         public async Task<IActionResult> Index()
         {
-            //db.Donos.ToLIstArray() <=> em SQL,select * from Donos;
-            //LINQ
-            //
-            return View(await bd.Donos.ToListAsync());
+            return View(await bd.Veterinarios.ToListAsync());
         }
 
-        // GET: Donos/Details/5
+        // GET: Veterins/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -36,43 +33,39 @@ namespace Vet.Controllers
                 return NotFound();
             }
 
-            var dono = await bd.Donos.FirstOrDefaultAsync(d => d.ID == id);
-
-            string aux = dono.Nome.ToLower;
-
-            if (dono == null)
+            var veterin = await bd.Veterinarios
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (veterin == null)
             {
                 return NotFound();
             }
 
-            return View(dono);
+            return View(veterin);
         }
 
-        // GET: Donos/Create
-        
+        // GET: Veterins/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Donos/Create
+        // POST: Veterins/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Nome,NIF")] Donos dono)
+        public async Task<IActionResult> Create([Bind("ID,Nome,NumCedulaProf,Fotografia")] Veterin veterin)
         {
             if (ModelState.IsValid)
             {
-                bd.Add(dono);//insert into donos value
-                await bd.SaveChangesAsync();//commit
+                bd.Add(veterin);
+                await bd.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }//rollback
-            return View(dono);
-            //viewbag
+            }
+            return View(veterin);
         }
 
-        // GET: Donos/Edit/5
+        // GET: Veterins/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,22 +73,22 @@ namespace Vet.Controllers
                 return NotFound();
             }
 
-            var dono = await bd.Donos.FindAsync(id);
-            if (dono == null)
+            var veterin = await bd.Veterinarios.FindAsync(id);
+            if (veterin == null)
             {
                 return NotFound();
             }
-            return View(dono);
+            return View(veterin);
         }
 
-        // POST: Donos/Edit/5
+        // POST: Veterins/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Nome,NIF")] Donos dono)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Nome,NumCedulaProf,Fotografia")] Veterin veterin)
         {
-            if (id != dono.ID)
+            if (id != veterin.ID)
             {
                 return NotFound();
             }
@@ -104,12 +97,12 @@ namespace Vet.Controllers
             {
                 try
                 {
-                    bd.Update(dono);
+                    bd.Update(veterin);
                     await bd.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DonosExists(dono.ID))
+                    if (!VeterinExists(veterin.ID))
                     {
                         return NotFound();
                     }
@@ -120,10 +113,10 @@ namespace Vet.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(dono);
+            return View(veterin);
         }
 
-        // GET: Donos/Delete/5
+        // GET: Veterins/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -131,30 +124,30 @@ namespace Vet.Controllers
                 return NotFound();
             }
 
-            var dono = await bd.Donos
+            var veterin = await bd.Veterinarios
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (dono == null)
+            if (veterin == null)
             {
                 return NotFound();
             }
 
-            return View(dono);
+            return View(veterin);
         }
 
-        // POST: Donos/Delete/5
+        // POST: Veterins/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var dono = await bd.Donos.FindAsync(id);
-            bd.Donos.Remove(dono);
+            var veterin = await bd.Veterinarios.FindAsync(id);
+            bd.Veterinarios.Remove(veterin);
             await bd.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DonosExists(int id)
+        private bool VeterinExists(int id)
         {
-            return bd.Donos.Any(e => e.ID == id);
+            return bd.Veterinarios.Any(e => e.ID == id);
         }
     }
 }

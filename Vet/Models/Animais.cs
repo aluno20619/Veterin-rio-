@@ -15,6 +15,7 @@ namespace Vet.Models
         //id nome especie raca peso foto
         [Key]
         public int ID { get; set; }
+        [Required]
         public string Nome { get; set; }
         public string Especie { get; set; }
         public string Raca { get; set; }
