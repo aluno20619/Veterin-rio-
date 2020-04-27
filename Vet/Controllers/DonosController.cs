@@ -38,7 +38,7 @@ namespace Vet.Controllers
 
             var dono = await bd.Donos.FirstOrDefaultAsync(d => d.ID == id);
 
-            string aux = dono.Nome.ToLower;
+           // string aux = dono.Nome.ToLower;
 
             if (dono == null)
             {
