@@ -24,5 +24,24 @@ namespace Vet.Data
         public DbSet<Veterin> Veterinarios { get; set; }
         public DbSet<Consulta> Consultas { get; set; }
 
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // insert DB seed
+            modelBuilder.Entity<Donos>().HasData(
+               new Donos { ID = 1, Nome = "Luís Freitas", Sexo = "M", NIF = "813635582" },
+               new Donos { ID = 2, Nome = "Andreia Gomes", Sexo = "F", NIF = "854613462" },
+               new Donos { ID = 3, Nome = "Cristina Sousa", Sexo = "F", NIF = "265368715" },
+               new Donos { ID = 4, Nome = "Sónia Rosa", Sexo = "F", NIF = "835623190" },
+               new Donos { ID = 5, Nome = "António Santos", Sexo = "M", NIF = "751512205" },
+               new Donos { ID = 6, Nome = "Gustavo Alves", Sexo = "M", NIF = "728663835" },
+               new Donos { ID = 7, Nome = "Rosa Vieira", Sexo = "F", NIF = "644388118" },
+               new Donos { ID = 8, Nome = "Daniel Dias", Sexo = "M", NIF = "262618487" },
+               new Donos { ID = 9, Nome = "Tânia Gomes", Sexo = "F", NIF = "842615197" },
+               new Donos { ID = 10, Nome = "Andreia Correia", Sexo = "F", NIF = "635139506" }
+                );
+
+        }
+
     }
 }

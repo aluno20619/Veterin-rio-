@@ -21,6 +21,11 @@ namespace Vet.Models
             ErrorMessage = "Só são aceites letras.<br />Deve começar com minuscula e de segiuda miniculas.<br />Deve ter 2 a 4 nomes")]
         public string Nome { get; set; }
 
+        [Required(ErrorMessage = "O {0} e de preenchimento obrigatorio")]
+        [StringLength(1)]
+        [RegularExpression("[mfMF]")]
+        public string Sexo { get; set; }
+
         [Required(ErrorMessage ="O {0} e de preenchimento obrigatorio")]
         [StringLength(9,MinimumLength =9, ErrorMessage = "O {0} deve ter exatament {1} caracteres")]
         [RegularExpression("[1356][0-9]{8}",ErrorMessage ="So sao aceites 9 algarismos comecando pelo 1, 3,5 ou 6")]
