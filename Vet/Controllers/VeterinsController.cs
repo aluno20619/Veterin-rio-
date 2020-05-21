@@ -27,7 +27,7 @@ namespace Vet.Controllers
 
         // GET: Veterins/Details/5
         /// <summary>
-        /// Mostra dados de um veterinario
+        /// Mostra dados de um veterinario.Acesso com lazy loading
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -40,6 +40,36 @@ namespace Vet.Controllers
 
             var veterinario = await bd.Veterinarios
                 .FirstOrDefaultAsync(m => m.ID == id);
+            if (veterinario == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View(veterinario);
+        }
+
+
+        // GET: Veterins/Details/5
+        /// <summary>
+        /// Mostra dados de um veterinario .Acesso em eager loading
+        /// acesso aos dados antecipadamente. select * from Consultas c,Donos d,Animais a,Veterin v
+        /// where c.veterinFK =v.ID and c.AnimaisFK =a.id and a.DonosFk = d.id and v.id = id 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> Details2(int? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            var veterinario = await bd.Veterinarios
+                .Include(v=>v.Listconsultas)
+                .ThenInclude(a=>a.Animal)
+                .ThenInclude(d=>d.Dono)
+                .FirstOrDefaultAsync(m => m.ID == id);
+
             if (veterinario == null)
             {
                 return RedirectToAction("Index");
