@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +16,12 @@ namespace Vet.Controllers
     public class VeterinsController : Controller
     {
         private readonly VetsDB bd;
+        private readonly IWebHostEnvironment _ambiente;
 
         public VeterinsController(VetsDB context)
         {
             bd = context;
+            _ambiente = _ambiente;
         }
 
         // GET: Veterins
@@ -78,6 +83,10 @@ namespace Vet.Controllers
             return View(veterinario);
         }
 
+        /// <summary>
+        /// Apresenta o formulario de criacao de um novo veterinario
+        /// </summary>
+        /// <returns></returns>
         // GET: Veterins/Create
         public IActionResult Create()
         {
@@ -89,14 +98,59 @@ namespace Vet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Nome,NumCedulaProf,Fotografia")] Veterin veterinario)
+        public async Task<IActionResult> Create([Bind("ID,Nome,NumCedulaProf,Fotografia")] Veterin veterinario,IFormFile FotoVet)
         {
+            //***********************************************
+            //processar o ficheiro da fotografia
+            //***********************************************
+            //vars aux
+            string camCompleto = "";
+            bool haImagem = false;
+            //se nao houver ficheiro
+            if (FotoVet == null)
+            {
+                // ModelState.AddModelError("", "Nao se esqueça de adicionar uma foto");
+                veterinario.Fotografia = "noName.png";
+            }
+            else { 
+                if(FotoVet.ContentType==("image/jpeg")|| FotoVet.ContentType == ("image/png"))
+                {
+                    Guid g;
+                    g = Guid.NewGuid();
+                    string extensao = Path.GetExtension(FotoVet.FileName).ToLower();
+
+                    //nome do ficheio
+                    string nome = g.ToString() + extensao;
+                    //identificar a extensao do ficheiro
+                    //identificar o caminho do ficheiro a gravar
+                    //
+                    camCompleto = Path.Combine(_ambiente.WebRootPath, "Imagens\\Vets",nome);
+                    veterinario.Fotografia = nome;
+                    
+                }
+                else
+                {
+                    //ha ficheiro mas nao e imagem
+                }
+            }
             if (ModelState.IsValid)
             {
+
+                //add o vet ao modelo
                 bd.Add(veterinario);
+                //consolida as alteracoes na bd
                 await bd.SaveChangesAsync();
+                //o fich e guardado no disco
+                if (haImagem)
+                {
+                    using var stream = new FileStream(camCompleto, FileMode.Create);
+                    await FotoVet.CopyToAsync(stream);
+                }
+
+                //redireciona o utilizador para o Index
                 return RedirectToAction(nameof(Index));
             }
+            // se o modelo nao valido devolve o controlo ao create
             return View(veterinario);
         }
 

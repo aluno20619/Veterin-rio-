@@ -1,16 +1,16 @@
 ﻿@model Vet.Models.Veterin
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Cr~iar Veterinario";
 }
 
-<h1>Create</h1>
+<h1>Criar novo Veterinario</h1>
 
-<h4>Veterin</h4>
+<h4>Veterinario</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Nome" class="control-label"></label>
@@ -22,13 +22,17 @@
                 <input asp-for="NumCedulaProf" class="form-control" />
                 <span asp-validation-for="NumCedulaProf" class="text-danger"></span>
             </div>
+            
             <div class="form-group">
                 <label asp-for="Fotografia" class="control-label"></label>
-                <input asp-for="Fotografia" class="form-control" />
+                @*<input asp-for="Fotografia" class="form-control" />*@
+            <input type="file" name="FotoVet" accept=".jpg,.png" style="color:blueviolet"/>
+
                 <span asp-validation-for="Fotografia" class="text-danger"></span>
             </div>
+           
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Adicionar" class="btn btn-primary" />
             </div>
         </form>
     </div>
