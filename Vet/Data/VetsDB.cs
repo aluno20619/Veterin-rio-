@@ -19,10 +19,10 @@ namespace Vet.Data
         /// <param name="options"></param>
         public VetsDB(DbContextOptions<VetsDB> options) : base(options) { }
         //adicionar á bd
-        public DbSet<Animais> Animais { get; set; }
-        public DbSet<Donos> Donos { get; set; }
-        public DbSet<Veterin> Veterinarios { get; set; }
-        public DbSet<Consulta> Consultas { get; set; }
+        public virtual DbSet<Animais> Animais { get; set; }
+        public virtual DbSet<Donos> Donos { get; set; }
+        public virtual DbSet<Veterin> Veterinarios { get; set; }
+        public virtual DbSet<Consulta> Consultas { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

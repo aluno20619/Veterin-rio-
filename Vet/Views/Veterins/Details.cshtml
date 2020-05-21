@@ -38,18 +38,26 @@
                 <th> Animal</th>
                 <th>Dono</th>
             </tr>
-            @foreach(var consulta in Model.Listconsultas)
+            @foreach(var consulta in Model.Listconsultas) { 
             <tr>
                 <td>
                     @*Data*@
+                    @consulta.Data    
                 </td>
                 <td>
                     @*Animal*@
+                    <a asp-action="Details" asp-controller="Animais" asp-route-id="@consulta.AnimaisFK">
+                        @consulta.Animal.Nome
+                    </a>
                 </td>
                 <td>
                     @*Dono*@
+                <a asp-action="Details" asp-controller="Donos" asp-route-id="<@consulta.Animais.DonoFK">
+                     @consulta.Animal.Dono.Nome
+                </a>
                 </td>
             </tr>
+            }
         </table>
 
     </div>

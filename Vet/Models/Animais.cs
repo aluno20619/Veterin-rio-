@@ -22,12 +22,12 @@ namespace Vet.Models
         public int Peso { get; set; }
         public string Foto { get; set; }
 
-        public ICollection<Consulta> Listconsultas { get; set; }
+        public virtual ICollection<Consulta> Listconsultas { get; set; }
         //****************************
         // add da foreign key
         //****************************
         [ForeignKey("Dono")]//anotacao vai assossiar o atri s«donofk ao atr dono
         public int DonoFK { get; set; }
-        public Donos Dono { get; set; }
+        public virtual Donos Dono { get; set; }
     }
 }

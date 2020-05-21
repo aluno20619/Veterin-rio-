@@ -20,6 +20,6 @@ namespace Vet.Models
         [RegularExpression("vet-[0-9]{5}", ErrorMessage = "O {0} deve ser escrito em minusculas começar por vet- seguido de 5 characters")]
         public string NumCedulaProf { get; set; }
         public string Fotografia { get; set; }
-        public ICollection<Consulta> Listconsultas { get; set; }
+        public virtual ICollection<Consulta> Listconsultas { get; set; }
     }
 }

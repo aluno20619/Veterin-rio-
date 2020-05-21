@@ -31,7 +31,7 @@ namespace Vet.Models
         [RegularExpression("[1356][0-9]{8}",ErrorMessage ="So sao aceites 9 algarismos comecando pelo 1, 3,5 ou 6")]
         public string NIF { get; set; }
 
-        public  ICollection<Animais> ListAnimais { get; set; }
+        public virtual ICollection<Animais> ListAnimais { get; set; }
 
     }
 }

@@ -26,21 +26,26 @@ namespace Vet.Controllers
         }
 
         // GET: Veterins/Details/5
+        /// <summary>
+        /// Mostra dados de um veterinario
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Index");
             }
 
-            var veterin = await bd.Veterinarios
+            var veterinario = await bd.Veterinarios
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (veterin == null)
+            if (veterinario == null)
             {
-                return NotFound();
+                return RedirectToAction("Index");
             }
 
-            return View(veterin);
+            return View(veterinario);
         }
 
         // GET: Veterins/Create
@@ -54,15 +59,15 @@ namespace Vet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Nome,NumCedulaProf,Fotografia")] Veterin veterin)
+        public async Task<IActionResult> Create([Bind("ID,Nome,NumCedulaProf,Fotografia")] Veterin veterinario)
         {
             if (ModelState.IsValid)
             {
-                bd.Add(veterin);
+                bd.Add(veterinario);
                 await bd.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(veterin);
+            return View(veterinario);
         }
 
         // GET: Veterins/Edit/5
