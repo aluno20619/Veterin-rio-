@@ -1,9 +1,12 @@
-﻿using System;
+﻿
+
+
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Vet.Migrations
+namespace Vet.Data.Migrations
 {
-    public partial class confInicial : Migration
+    public partial class ModelMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,8 +16,9 @@ namespace Vet.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(nullable: true),
-                    NIF = table.Column<string>(nullable: true)
+                    Nome = table.Column<string>(maxLength: 40, nullable: false),
+                    Sexo = table.Column<string>(maxLength: 1, nullable: false),
+                    NIF = table.Column<string>(maxLength: 9, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -27,8 +31,8 @@ namespace Vet.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(nullable: true),
-                    NumCedulaProf = table.Column<string>(nullable: true),
+                    Nome = table.Column<string>(nullable: false),
+                    NumCedulaProf = table.Column<string>(maxLength: 9, nullable: false),
                     Fotografia = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -42,7 +46,7 @@ namespace Vet.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(nullable: true),
+                    Nome = table.Column<string>(nullable: false),
                     Especie = table.Column<string>(nullable: true),
                     Raca = table.Column<string>(nullable: true),
                     Peso = table.Column<int>(nullable: false),
@@ -57,7 +61,7 @@ namespace Vet.Migrations
                         column: x => x.DonoFK,
                         principalTable: "Donos",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -79,13 +83,13 @@ namespace Vet.Migrations
                         column: x => x.AnimaisFK,
                         principalTable: "Animais",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Consultas_Veterinarios_VetFK",
                         column: x => x.VetFK,
                         principalTable: "Veterinarios",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
