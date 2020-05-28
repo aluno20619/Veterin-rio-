@@ -26,7 +26,7 @@ namespace Vet.Models
         //****************************
         // add da foreign key
         //****************************
-        [ForeignKey("Dono")]//anotacao vai assossiar o atri s«donofk ao atr dono
+        [ForeignKey("Dono")]//anotacao vai assossiar o atributo donofk ao atr dono
         public int DonoFK { get; set; }
         public virtual Donos Dono { get; set; }
     }
