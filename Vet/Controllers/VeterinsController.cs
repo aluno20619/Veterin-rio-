@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ using Vet.Models;
 
 namespace Vet.Controllers
 {
+    [Authorize]// fecha o acesso a qualquer recurso da classe a Util nao autenticados
     public class VeterinsController : Controller
     {
         private readonly VetsDB bd;
@@ -25,6 +27,7 @@ namespace Vet.Controllers
         }
 
         // GET: Veterins
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             return View(await bd.Veterinarios.ToListAsync());
@@ -36,6 +39,7 @@ namespace Vet.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -62,6 +66,7 @@ namespace Vet.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        
         public async Task<IActionResult> Details2(int? id)
         {
             if (id == null)
@@ -97,6 +102,7 @@ namespace Vet.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Nome,NumCedulaProf,Fotografia")] Veterin veterinario,IFormFile FotoVet)
         {
@@ -155,6 +161,7 @@ namespace Vet.Controllers
         }
 
         // GET: Veterins/Edit/5
+    
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -174,6 +181,7 @@ namespace Vet.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Nome,NumCedulaProf,Fotografia")] Veterin veterin)
         {
