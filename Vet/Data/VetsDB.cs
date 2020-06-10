@@ -1,16 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Vet.Models;
 namespace Vet.Data
 {
-   
+    /// <summary>
+    /// clasee que add atri aos utils
+    /// </summary>
+    public class ApplicationUser : IdentityUser {
+        public string Nome { get; set; }
+        public string Fotografia { get; set; }
+        public DateTime TimeStamp{ get; set; }
+    }
+
     /// <summary>
     /// Representa a BD
+    /// nestemonmeto esta areferenciar um novo tipo de util
     /// </summary>
-    public class VetsDB : IdentityDbContext
+    public class VetsDB : IdentityDbContext<ApplicationUser>
     {//equivalente a create database
         /// <summary>
         /// construtor da classe liga a classe a bd
